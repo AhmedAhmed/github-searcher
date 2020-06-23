@@ -54,7 +54,7 @@ class GitHubSearcherForm extends Component <any, State> {
       }
     });
 
-    window.onpopstate = (event:any) => {
+    window.onpopstate = () => {
       const {params} = this.props.match;
       if(params.query) {
         this.setState({
@@ -63,6 +63,10 @@ class GitHubSearcherForm extends Component <any, State> {
       }
       this.performSearch();
     };
+  }
+
+  componentDidUnmount() {
+    window.onpopstate = () => {}
   }
 
   fetchRepos = () => this.props.actions.fetchRepos(this.state.query);
