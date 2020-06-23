@@ -1,0 +1,22 @@
+@import "../../colors.scss";
+$blockName: '.githubSearcherHeader';
+
+#{$blockName} {
+  display: flex;
+  flex-direction: row;
+
+  &-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &--title {
+      font-weight: bold;
+    }
+
+    &--placeholder {
+      color: $gray;
+      font-weight: 400;
+    }
+  }
+}
