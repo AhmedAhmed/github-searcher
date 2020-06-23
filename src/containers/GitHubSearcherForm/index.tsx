@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import debounce from 'lodash/debounce';
+import { useHistory } from 'react-router';
 
 import * as Actions from '../../store/actions';
 
@@ -22,19 +23,9 @@ interface State {
   entityType: DropDownItem
 }
 
-interface Props {
-  onStickUpdate: Function,
-  actions: {
-    fetchRepos: Function,
-    fetchUsers: Function,
-    clearSearch: Function
-  },
-  data: any
-}
-
 const blockName = 'githubSearcherForm';
 
-class GitHubSearcherForm extends Component <Props, State> {
+class GitHubSearcherForm extends Component <any, State> {
 
   state = {
     query: "",
@@ -44,29 +35,55 @@ class GitHubSearcherForm extends Component <Props, State> {
     }
   }
 
-  fetchRepos = debounce( 
-    (item:DropDownItem) => 
-    {
-      this.props.actions.fetchRepos(this.state.query).then(() => {
-        this.setState({entityType: item});
-      });
-    }, 
-    150);
+  componentDidMount(){
+    const {entity, query} = this.props;
+    const obj:any = entity === 'users' || entity === undefined? {
+      name: "Users",
+      value: "users"
+    } : {
+      name: "Repositories",
+      value: "repos"
+    };
+    this.setState({
+      entityType: obj,
+      query: query
+    }, () => {
+      if( this.canSearch() ){
+        this.props.onStickUpdate(true);
+        this.performSearch();
+      }
+    });
 
-  fetchUsers = debounce(
-    (item:DropDownItem) => {
-      this.props.actions.fetchUsers(this.state.query).then(() => {
-        this.setState({entityType: item});
+    window.onpopstate = (event:any) => {
+      const {params} = this.props.match;
+      if(params.query) {
+        this.setState({
+          query: params.query
+        });
+      }
+      this.performSearch();
+    };
+  }
+
+  fetchRepos = () => this.props.actions.fetchRepos(this.state.query);
+  fetchUsers = () => this.props.actions.fetchUsers(this.state.query);
+
+  setEntity = (item:DropDownItem) => debounce( () => 
+    {
+      this.setState({entityType: item}, () => {
+        const {query, entityType} = this.state;
+        window.history.pushState({urlPath:`/${entityType.value}/${query}`},"",`/${entityType.value}/${query}`)
       });
     },
     150
   );
 
-  canSearch = () => this.state.query.trim().length >= 3;
+  canSearch = () => this.state.query?.trim().length >= 3;
 
-  performSearch = debounce((item:DropDownItem = this.state.entityType) => {
-    item.value === 'users' ? this.fetchUsers(item) : this.fetchRepos(item);
-  }, 150);
+  performSearch = (item:DropDownItem = this.state.entityType) => {
+    item.value === 'users' ? this.fetchUsers() : this.fetchRepos();
+    this.setEntity(item)();
+  };
 
   onChangeSelection = (item:DropDownItem) => {
     if( this.canSearch() ){
@@ -80,8 +97,11 @@ class GitHubSearcherForm extends Component <Props, State> {
         this.props.onStickUpdate(true);
         this.performSearch();
       } else {
-        this.props.actions.clearSearch();
-        this.props.onStickUpdate(false);
+        this.props.onStickUpdate(false)
+        const clearData = debounce(() => {
+          this.props.actions.clearSearch();
+        }, 150);
+        clearData();
       }
     });
   }
@@ -109,7 +129,8 @@ class GitHubSearcherForm extends Component <Props, State> {
           />
           <Dropdown 
             items={items} 
-            onChange={this.onChangeSelection} 
+            onChange={this.onChangeSelection}
+            selected={this.state.entityType}
           />
         </form>
         <GitHubResults items={this.props.data} type={entityType.value}/>

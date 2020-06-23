@@ -14,7 +14,8 @@ interface State {
 
 interface Props {
   items: Array<DropDownItem>,
-  onChange: Function
+  onChange: Function,
+  selected: DropDownItem
 }
 
 const blockName = 'dropdown';
@@ -24,7 +25,7 @@ export default class Dropdown extends Component <Props, State> {
     isVisible: false
   }
 
-  componentWillMount(){
+  componentDidMount(){
     const {items} = this.props;
     this.setState({
       selected: items[0]
@@ -60,11 +61,11 @@ export default class Dropdown extends Component <Props, State> {
   }
 
   render(){
-    const {isVisible} = this.state;
+    const {isVisible, selected} = this.state;
     return (
       <div className={blockName}>
         <div className={`${blockName}-button`} onClick={this.toggleMenu}>
-          <div className={`${blockName}-label`}>{this.state.selected?.name}</div>
+          <div className={`${blockName}-label`}>{this.props.selected?this.props.selected.name : this.state.selected?.name}</div>
           <span className={`${blockName}-arrow`}></span>
         </div>
         {isVisible && this.renderMenu()}

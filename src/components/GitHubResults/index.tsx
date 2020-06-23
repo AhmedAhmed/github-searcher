@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import isArray from 'lodash/isArray';
 
 import './githubresults.scss';
 
@@ -52,8 +53,14 @@ export default class GithubResults extends Component <any, any> {
   }
 
   render(){
+    const {items} = this.props;
     return (
       <div className={blockName}>
+        {(!isArray(items) && items.fetching) && (
+          <div className={`${blockName}-loader`}>
+              <h2>Loading...</h2>
+          </div>
+        )}
         {this.renderItem()}
       </div>
     );

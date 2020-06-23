@@ -14,8 +14,9 @@ $blockName: '.githubSearcherForm';
   }
 
   &-input {
-    border: 2px transparent solid;
+    border: 1px #DDD solid;
     border-radius: 3px;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.05);
     box-sizing: border-box;
     background: $lightGray;
     padding: 10px;
@@ -24,7 +25,7 @@ $blockName: '.githubSearcherForm';
     outline: none;
 
     &:focus, &:active {
-      border: 2px $blue solid;
+      border: 1px $blue solid;
     }
   }
 }

@@ -20,15 +20,26 @@ class App extends Component <any, State> {
     stuck: false
   }
 
+  componentDidMount(){
+    const {data} = this.props;
+
+    if (data.length > 0) {
+      this.setState({
+        stuck: true
+      })
+    }
+  }
+
   onStickUpdate = ( state:Boolean ) => {
     this.setState({stuck: state});
   }
 
   render(){
     const {stuck} = this.state;
+    const {params} = this.props.match;
     return (
       <div className={stuck?`${blockName} ${blockName}-stuck`:blockName}>
-        <GitHubSearcherForm onStickUpdate={this.onStickUpdate}/>
+        <GitHubSearcherForm {...this.props} entity={params.users} query={params.query} onStickUpdate={this.onStickUpdate}/>
       </div>
     );
   }

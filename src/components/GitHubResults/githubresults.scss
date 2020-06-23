@@ -4,23 +4,31 @@ $blockName: ".githubResults";
 #{$blockName} {
   display: grid;
   grid-template-columns: 300px 300px;
+  margin-top: 30px;
+  gap: 20px;
 
   @media screen and (min-width: 768px) {
     display: grid;
     grid-template-columns: repeat( 3, minmax(300px, 1fr) );
+    gap: 20px;
   }
 
   &-item {
+    background: #FFF;
     display: flex;
     align-items: center;
     flex-direction: column;
     color:#222;
     text-decoration: none;
-    border: 1px #EEE solid;
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.05);
     border-radius: 3px;
-    margin: 10px 10px 10px 0;
     overflow: hidden;
     max-width: 400px;
+    transition: all ease 0.3s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 
   &-item--image {
