@@ -1,0 +1,47 @@
+@import "../../colors.scss";
+
+$blockName: '.githubSearcherForm';
+
+#{$blockName} {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+
+  &-form {
+    display: flex;
+    margin-top: 10px;
+    width: 500px;
+  }
+
+  &-input {
+    border: 1px #BBB solid;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    background: $lightGray;
+    padding: 10px;
+    font-size: 18px;
+    width: 100%;
+    outline: none;
+
+    &:focus, &:active {
+      border: 1px $blue solid;
+    }
+  }
+
+  &__button {
+    display: flex;
+    cursor: pointer;
+    background: $green;
+    color: #FFF;
+    align-items: center;
+    justify-content: center;
+    border: 1px $greenDark solid;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px rgba(46, 164, 79, 0.5);
+    padding: 10px 20px;
+    margin-left: 20px;
+    font-size: 18px;
+    text-shadow: 0px 0px 5px rgba(0,0,0,0.15);
+  }
+}

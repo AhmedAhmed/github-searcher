@@ -1,0 +1,62 @@
+@import "../../colors.scss";
+$blockName: ".githubResults";
+
+#{$blockName} {
+  background-color: white;
+  border: 1px #DDD solid;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 25px;
+  width: 500px;
+
+  &__empty {
+    color: #555;
+    display: flex;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px #EEE solid;
+    padding-bottom: 25px;
+    margin-bottom: 15px;
+
+    .pic {
+      display: flex;
+      margin-right: 10px;
+      height: 50px;
+      width: 50px;
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      height: 50px;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__list-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    align-items: center;
+
+    .type {
+      background: $blue;
+      border-radius: 5px;
+      color: #FFF;
+      padding: 5px 10px;
+    }
+  }
+}
