@@ -1,0 +1,10 @@
+{
+  "name": "github-searcher",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo Building...",
+    "start": "node index.js"
+  },
+  "dependencies": {}
+}
